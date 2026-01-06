@@ -1,0 +1,67 @@
+# Configuración de entrenamiento para modelo de detección YOLOv11
+# Dataset: Titan Detection - Ciclistas de Downhill
+
+# Rutas de datos (se sobrescriben desde Colab)
+data_path: null  # Se establece dinámicamente
+
+# Modelo
+model:
+  name: yolo11m  # Medium para balance precisión/velocidad (yolo11n, yolo11s, yolo11m, yolo11l, yolo11x)
+  pretrained: true
+  
+# Entrenamiento
+training:
+  epochs: 100
+  batch_size: 16  # Ajustar según GPU disponible (T4: 16, A100: 32)
+  imgsz: 640
+  patience: 15  # Early stopping
+  workers: 2  # Colab tiene limitaciones
+  
+  # Optimizador
+  optimizer: AdamW
+  lr0: 0.001  # Learning rate inicial
+  lrf: 0.01   # Learning rate final (lr0 * lrf)
+  momentum: 0.937
+  weight_decay: 0.0005
+  warmup_epochs: 3.0
+  warmup_momentum: 0.8
+  warmup_bias_lr: 0.1
+  
+  # Augmentation (adicional al de Roboflow)
+  hsv_h: 0.015  # Hue
+  hsv_s: 0.7    # Saturation
+  hsv_v: 0.4    # Value
+  degrees: 0.0  # Rotación ya aplicada en Roboflow
+  translate: 0.1
+  scale: 0.5
+  shear: 0.0
+  perspective: 0.0
+  flipud: 0.0
+  fliplr: 0.5
+  mosaic: 1.0
+  mixup: 0.1
+  copy_paste: 0.0
+  
+# Validación
+validation:
+  val_interval: 1  # Validar cada N épocas
+  conf_threshold: 0.25
+  iou_threshold: 0.45
+  
+# Guardado
+save:
+  save_period: 10  # Guardar checkpoint cada N épocas
+  project: "runs/detection"
+  name: "titan_detection"
+
+# Clases del dataset
+classes:
+  0: bicycle
+  1: bicycle_text
+  2: clothes_text
+  3: competidor_number
+  4: cyclist
+  5: cyclist_clothes
+  6: cyclist_with_bike
+  7: helmet
+  8: helmet_text

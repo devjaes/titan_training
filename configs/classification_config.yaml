@@ -1,0 +1,129 @@
+# Configuración de entrenamiento para modelo de clasificación multi-label
+# Dataset: Titan Labels - Atributos de Ciclistas de Downhill
+
+# Rutas de datos (se sobrescriben desde Colab)
+data_path: null  # Se establece dinámicamente
+
+# Modelo
+model:
+  # Arquitectura base: efficientnet_b0 (ligero), efficientnet_b2 (balance), resnet50 (robusto)
+  backbone: efficientnet_b2
+  pretrained: true
+  num_classes: 116  # 117 columnas - 1 (filename)
+  dropout: 0.3
+  
+# Entrenamiento
+training:
+  epochs: 80
+  batch_size: 32  # Clasificación es más ligera que detección
+  imgsz: 224  # Tamaño estándar para clasificación
+  patience: 12  # Early stopping
+  workers: 2
+  
+  # Optimizador
+  optimizer: AdamW
+  learning_rate: 0.0003
+  weight_decay: 0.01
+  scheduler: cosine  # cosine, step, plateau
+  warmup_epochs: 5
+  
+  # Loss
+  loss: BCE  # Binary Cross Entropy para multi-label
+  label_smoothing: 0.1
+  pos_weight_auto: true  # Calcular pesos automáticamente por desbalance
+  
+  # Augmentation
+  augmentation:
+    horizontal_flip: 0.5
+    vertical_flip: 0.0
+    rotation: 15
+    brightness: 0.2
+    contrast: 0.2
+    saturation: 0.2
+    hue: 0.1
+    
+# Validación
+validation:
+  val_interval: 1
+  threshold: 0.5  # Umbral para clasificación binaria
+  
+# Guardado
+save:
+  save_period: 5
+  project: "runs/classification"
+  name: "titan_classification"
+
+# Grupos de atributos (para análisis)
+attribute_groups:
+  bicycle_colors:
+    - bicycle.black
+    - bicycle.blue
+    - bicycle.golden
+    - bicycle.gray
+    - bicycle.green
+    - bicycle.orange
+    - bicycle.purple
+    - bicycle.red
+    - bicycle.silver
+    - bicycle.sky_blue
+    - bicycle.white
+    - bicycle.yellow
+    
+  helmet_colors:
+    - helmet.black
+    - helmet.blue
+    - helmet.golden
+    - helmet.gray
+    - helmet.green
+    - helmet.orange
+    - helmet.purple
+    - helmet.red
+    - helmet.silver
+    - helmet.sky_blue
+    - helmet.white
+    - helmet.yellow
+    
+  clothes_colors:
+    - cyclist_clothes.black
+    - cyclist_clothes.blue
+    - cyclist_clothes.brown
+    - cyclist_clothes.gray
+    - cyclist_clothes.green
+    - cyclist_clothes.orange
+    - cyclist_clothes.pink
+    - cyclist_clothes.red
+    - cyclist_clothes.sky_blue
+    - cyclist_clothes.white
+    - cyclist_clothes.yellow
+    
+  bicycle_brands:
+    - bicycle_text.BOMBER58
+    - bicycle_text.FOX
+    - bicycle_text.GIANT
+    - bicycle_text.LYRIK
+    - bicycle_text.MARIN
+    - bicycle_text.MARZOCCHI
+    - bicycle_text.MONDRAKER
+    - bicycle_text.PIVOT
+    - bicycle_text.ROCKSHOX
+    - bicycle_text.SANTACRUZ
+    - bicycle_text.SCOTT
+    - bicycle_text.SPECIALIZED
+    - bicycle_text.TEAM
+    - bicycle_text.TREK
+    - bicycle_text.Tech
+    
+  clothes_brands:
+    - clothes_text.FOX
+    - clothes_text.LEATT
+    - clothes_text.ONEAL
+    - clothes_text.RockGarden
+    - clothes_text.TroyLeeDesigns
+    - clothes_text.thoms
+    
+  helmet_brands:
+    - helmet_text.100
+    - helmet_text.FLY
+    - helmet_text.LAZER
+    - helmet_text.LEATT
+    - helmet_text.SPARK

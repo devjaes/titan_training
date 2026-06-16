@@ -85,12 +85,11 @@ python -m src.detection.train --config configs/detection_config.yaml --export on
 
 The datasets themselves are not included in this repository.
 
-## Status & limitations
+## Status
 
-- **Prototype. Project paused** — the downstream system this pipeline was meant to feed was cancelled.
-- The labeled dataset is **small** (~222 detection / ~240 classification images, even with augmentation).
-- The repo defines training targets (mAP@0.5, F1 macro, Hamming loss) but does **not** claim production-grade evaluated metrics.
-- Kept public as a record of the architecture: two-stage detection + multi-label attribute classification with ONNX export.
+- Two-stage CV prototype (detection + multi-label attribute classification) with ONNX export — currently paused.
+- Training targets defined: mAP@0.5 for detection, F1 macro and Hamming loss for classification.
+- Kept public as a record of the architecture.
 
 ## Why this is in the portfolio
 

@@ -1,4 +1,4 @@
-# Titan — MTB Rider Detection & Attribute Classification (Prototype)
+# Titan - MTB Rider Detection & Attribute Classification (Prototype)
 
 > Computer-vision pipeline for downhill MTB rider detection and multi-label attribute classification. Paused prototype.
 
@@ -10,8 +10,8 @@ Downhill MTB events produce large volumes of race-day photography, but tagging r
 
 Two-stage pipeline:
 
-1. **Detection** — Ultralytics **YOLOv11m** detects 9 object classes on the rider: `bicycle`, `bicycle_text`, `clothes_text`, `competitor_number`, `cyclist`, `cyclist_clothes`, `cyclist_with_bike`, `helmet`, `helmet_text` (boxes + polygon labels).
-2. **Classification** — An **EfficientNet-B2** backbone with a multi-label head (`BCEWithLogitsLoss`, auto-computed positive-class weights, tunable inference threshold) classifies **116 attributes** per image: bike/helmet/apparel colors, bike brands (e.g. `SantaCruz`, `Trek`, `Mondraker`, `RockShox`), apparel brands (`FOX`, `LEATT`, `TroyLeeDesigns`, ...) and helmet brands.
+1. **Detection** - Ultralytics **YOLOv11m** detects 9 object classes on the rider: `bicycle`, `bicycle_text`, `clothes_text`, `competitor_number`, `cyclist`, `cyclist_clothes`, `cyclist_with_bike`, `helmet`, `helmet_text` (boxes + polygon labels).
+2. **Classification** - An **EfficientNet-B2** backbone with a multi-label head (`BCEWithLogitsLoss`, auto-computed positive-class weights, tunable inference threshold) classifies **116 attributes** per image: bike/helmet/apparel colors, bike brands (e.g. `SantaCruz`, `Trek`, `Mondraker`, `RockShox`), apparel brands (`FOX`, `LEATT`, `TroyLeeDesigns`, ...) and helmet brands.
 
 Both stages support **ONNX export** out of the box (`src/detection/train.py --export onnx`, equivalent path on the classifier) and ship modular single-image and batch inference utilities. A Colab-oriented notebook drives the full training/eval flow end to end.
 
@@ -74,7 +74,7 @@ python -m src.detection.train --config configs/detection_config.yaml --export on
    - `MyDrive/titan_project/models_datasets/titan_detection.yolov11/`
    - `MyDrive/titan_project/models_datasets/titan_labels.multiclass/`
 2. Open `notebooks/titan_training.ipynb` in Google Colab.
-3. Run the cells in order — the notebook handles mounts, configs and both training loops.
+3. Run the cells in order - the notebook handles mounts, configs and both training loops.
 
 ## Datasets (training-time, internal)
 
@@ -87,13 +87,13 @@ The datasets themselves are not included in this repository.
 
 ## Status
 
-- Two-stage CV prototype (detection + multi-label attribute classification) with ONNX export — currently paused.
+- Two-stage CV prototype (detection + multi-label attribute classification) with ONNX export - currently paused.
 - Training targets defined: mAP@0.5 for detection, F1 macro and Hamming loss for classification.
 - Kept public as a record of the architecture.
 
 ## Why this is in the portfolio
 
-A standalone computer-vision prototype outside my usual web/backend stack — broadens AI breadth beyond LLM work, in a non-trivial vertical (downhill MTB) that doesn't have off-the-shelf rider-attribution models. See the [portfolio entry](https://devjaes.dev/work/titan-training).
+A standalone computer-vision prototype outside my usual web/backend stack - broadens AI breadth beyond LLM work, in a non-trivial vertical (downhill MTB) that doesn't have off-the-shelf rider-attribution models. See the [portfolio entry](https://devjaes.dev/work/titan-training).
 
 ## License
 
